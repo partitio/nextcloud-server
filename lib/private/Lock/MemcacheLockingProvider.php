@@ -71,7 +71,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	 */
 	public function acquireLock(string $path, int $type) {
 		if ($type === self::LOCK_SHARED) {
-			if (!$this->memcache->inc($path)) {
+			if ($this->memcache->inc($path) === false) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
 		} else {
